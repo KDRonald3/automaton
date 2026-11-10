@@ -147,6 +147,12 @@ th,td{text-align:left;vertical-align:top;padding:.62em 1.2em .62em 0;border-bott
 thead th{font-weight:800;font-size:var(--fs-lead);letter-spacing:-0.035em;line-height:1.04;border-bottom-width:2px;vertical-align:bottom}
 tbody th{font-weight:600}
 td.num{white-space:nowrap;font-weight:600}
+.cmp tr.us{background:var(--pink);color:var(--navy)}
+.cmp tr.us th,.cmp tr.us td{border-bottom:0;font-weight:600}
+.cmp tr.us th{padding-left:.8em;font-weight:800}
+.rv thead th{font-size:var(--fs-body);letter-spacing:-0.01em;line-height:1.3}
+.rv th:last-child,.rv td:last-child{padding-right:0}
+.cmp tr.us td:last-child{padding-right:.8em}
 .sharebar{display:block;height:.9em;background:var(--pink);min-width:3px;margin-top:.3em}
 
 /* landscape */
@@ -276,6 +282,9 @@ td.num{white-space:nowrap;font-weight:600}
   .cmp th,.cmp td{border:0;padding:.25em 0}
   .cmp tbody th{grid-column:1/-1}
   .cmp thead th{font-size:var(--fs-body)}
+  .rv thead th{width:auto!important}
+  .cmp tr.us{padding:.6em .8em}
+  .cmp tr.us th{padding-left:0}
   .pstage .shutter{overflow-x:auto}
   .pstage .shutter img{width:175%;max-width:none}
   .hbars li,.hbars.wide li{grid-template-columns:minmax(0,1fr) 5.4em}
@@ -528,7 +537,25 @@ td.num{white-space:nowrap;font-weight:600}
   <li><h3>Our models</h3><p class="small">If the data says so.</p></li>
 </ol>
 <div class="pg"><span>7</span><svg viewBox="0 0 14 1" width="14" height="1" aria-hidden="true"><rect class="cell-a" x="0" y="0" width="1.02" height="1.02"/><rect class="cell-a" x="2" y="0" width="1.02" height="1.02"/><rect class="cell-a" x="4" y="0" width="1.02" height="1.02"/><rect class="cell-a" x="6" y="0" width="1.02" height="1.02"/><rect class="cell-h" x="10" y="0" width="1.02" height="1.02"/><rect class="cell-h" x="13" y="0" width="1.02" height="1.02"/></svg></div></div></section>
-<section class="slide s-why field fill" id="s_why" aria-label="Slide 8: Why a new company"><div class="stage">
+<section class="slide s-rivals" id="rivals" aria-label="Slide 8: The default path"><div class="stage">
+<h2 style="--c:1/12">Everyone else bolts the agent on.</h2>
+<div class="tbl"><table class="cmp rv">
+  <thead><tr><th style="width:18%">The default path</th><th style="width:31.5%">What it calls it</th><th>What it is</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Microsoft, Windows</th><td>"An agentic OS"</td><td>A desktop for an agent: a preview since 2025, off by default</td></tr>
+    <tr><th scope="row">Apple, iOS, macOS</th><td>"Siri AI"</td><td>An assistant that calls the actions an app chooses to offer it</td></tr>
+    <tr><th scope="row">Google, Android</th><td>"Gemini Intelligence"</td><td>Gemini taps through your apps; its 24/7 agent runs in the cloud</td></tr>
+    <tr><th scope="row">Nothing, Essential</th><td>"A new kind of operating system"</td><td>A notes app, and small apps written from a sentence, on Android</td></tr>
+    <tr><th scope="row">Omarchy 4</th><td>"The agentic OS for the age of agents"</td><td>Arch Linux with a key that opens a coding agent, told not to ask</td></tr>
+    <tr><th scope="row">Rabbit, OS3</th><td>"The agentic operating system"</td><td>A chat service that controls any PC running its agent program</td></tr>
+    <tr><th scope="row">OpenAI, Anthropic</th><td>"ChatGPT agent", "Cowork"</td><td>A computer in their cloud. On your PC: "no sandbox" (Anthropic)</td></tr>
+    <tr><th scope="row">/dev/agents</th><td>"Operating system for AI agents"</td><td>$56 million raised in 2024. Its team joined Meta in March 2026</td></tr>
+    <tr class="us"><th scope="row">Automaton</th><td>A new user needs a new OS</td><td>Each agent is a user: its own desktop, its own layer over your files, and you keep or discard what it did</td></tr>
+  </tbody>
+</table></div>
+<p class="src">Sources: each company's own pages, read 10 November 2026; Bloomberg on /dev/agents, 24 March 2026.</p>
+<div class="pg"><span>8</span><svg viewBox="0 0 16 1" width="16" height="1" aria-hidden="true"><rect class="cell-a" x="0" y="0" width="8.02" height="1.02"/><rect class="cell-h" x="10" y="0" width="6.02" height="1.02"/></svg></div></div></section>
+<section class="slide s-why field fill" id="s_why" aria-label="Slide 9: Why a new company"><div class="stage">
 <h2 style="--c:1/10">Why the incumbents will not.</h2>
 <div class="col spread" style="--c:1/13;--r:2;--a:stretch">
   <div class="pts three">
@@ -539,8 +566,8 @@ td.num{white-space:nowrap;font-weight:600}
   <p class="lead" style="max-width:40em">Microsoft's own attempt, Agent Workspace, has been a preview since 2025: switched off by default, on Windows only, with no view of several agents at once and no undo of what an agent changed. A new company can build the whole system around the new user.</p>
 </div>
 <p class="src">Sources: Apple, results for fiscal 2026; Microsoft, annual report 2026 and announcements; my field study.</p>
-<div class="pg"><span>8</span><svg viewBox="0 0 16 1" width="16" height="1" aria-hidden="true"><rect class="cell-a" x="0" y="0" width="8.02" height="1.02"/><rect class="cell-h" x="10" y="0" width="6.02" height="1.02"/></svg></div></div></section>
-<section class="slide s-built" id="built" aria-label="Slide 9: Built so far"><div class="stage">
+<div class="pg"><span>9</span><svg viewBox="0 0 18 1" width="18" height="1" aria-hidden="true"><rect class="cell-a" x="0" y="0" width="1.02" height="1.02"/><rect class="cell-a" x="8" y="0" width="1.02" height="1.02"/><rect class="cell-h" x="9" y="0" width="3.02" height="1.02"/><rect class="cell-h" x="17" y="0" width="1.02" height="1.02"/></svg></div></div></section>
+<section class="slide s-built" id="built" aria-label="Slide 10: Built so far"><div class="stage">
 <div class="board">
   <div class="tile wide fill-a stair"><h2 style="padding-left:calc(3*var(--s))">Built so far.</h2><p class="lead">I built all of this before any funding, working with AI agents.</p></div>
   <div class="tile"><b>3 days</b><p>from the first line of code to six agents at work on one PC, in 200 commits.</p></div>
@@ -549,8 +576,8 @@ td.num{white-space:nowrap;font-weight:600}
   <div class="tile"><b>13.6 s</b><p>a task with my computer use, against 20.8 s from screenshots. Faster with all three models tested, in 456 runs.</p></div>
   <div class="tile wide fill-h"><h3>Who is building it</h3><p><strong>I am Ronald Djakou.</strong> I study mathematics at Caltech and do research in quantum systems and cellular automata. IBM awarded me Quantum Excellence at its Qiskit school in 2024. I built the simulation tools my research groups lacked, and cut one analysis from 59 GB of memory to 2.5 GB.</p><p><strong>I am looking for co-founders</strong>, then engineers.</p></div>
 </div>
-<div class="pg"><span>9</span><svg viewBox="0 0 18 1" width="18" height="1" aria-hidden="true"><rect class="cell-a" x="0" y="0" width="1.02" height="1.02"/><rect class="cell-a" x="8" y="0" width="1.02" height="1.02"/><rect class="cell-h" x="9" y="0" width="3.02" height="1.02"/><rect class="cell-h" x="17" y="0" width="1.02" height="1.02"/></svg></div></div></section>
-<section class="slide s-ask fill3" id="s_ask" aria-label="Slide 10: The ask"><div class="stage">
+<div class="pg"><span>10</span><svg viewBox="0 0 20 1" width="20" height="1" aria-hidden="true"><rect class="cell-a" x="0" y="0" width="2.02" height="1.02"/><rect class="cell-a" x="8" y="0" width="2.02" height="1.02"/><rect class="cell-h" x="10" y="0" width="1.02" height="1.02"/><rect class="cell-h" x="13" y="0" width="1.02" height="1.02"/><rect class="cell-h" x="17" y="0" width="3.02" height="1.02"/></svg></div></div></section>
+<section class="slide s-ask fill3" id="s_ask" aria-label="Slide 11: The ask"><div class="stage">
 <h2 style="--c:1/12">I am raising $2 million.</h2>
 <p class="lead" style="--c:1/11">There are no users yet, and I am the only founder. This pre-seed round pays for a team of five (me, one or two co-founders, then engineers) and takes Automaton from a working demo to a system its first pilot customers use every day, in 18 months.</p>
 <ol class="ms" style="--c:1/13;--a:stretch">
@@ -561,7 +588,7 @@ td.num{white-space:nowrap;font-weight:600}
   <li><h3>Month 18</h3><p class="small">The pilots' Windows applications run. Ready for a seed round.</p></li>
 </ol>
 <p style="--c:1/13"><strong>Where it goes:</strong> 58 % pay for five people (my pay at $100,000 a year; four more at about $240,000 with costs, joining over months 3 to 7), 4 % finding them, 15 % AI compute, 6 % security and legal, 5 % hardware, 4 % pilots, 8 % reserve. <strong>Contact:</strong> Ronald Djakou, rkouatch@caltech.edu. <strong>Demo:</strong> <a href="https://youtu.be/Ugkh9cJ_mVg">youtu.be/Ugkh9cJ_mVg</a></p>
-<div class="pg"><span>10</span><svg viewBox="0 0 20 1" width="20" height="1" aria-hidden="true"><rect class="cell-a" x="0" y="0" width="2.02" height="1.02"/><rect class="cell-a" x="8" y="0" width="2.02" height="1.02"/><rect class="cell-h" x="10" y="0" width="1.02" height="1.02"/><rect class="cell-h" x="13" y="0" width="1.02" height="1.02"/><rect class="cell-h" x="17" y="0" width="3.02" height="1.02"/></svg></div></div></section>
+<div class="pg"><span>11</span><svg viewBox="0 0 22 1" width="22" height="1" aria-hidden="true"><rect class="cell-a" x="0" y="0" width="1.02" height="1.02"/><rect class="cell-a" x="2" y="0" width="1.02" height="1.02"/><rect class="cell-a" x="8" y="0" width="1.02" height="1.02"/><rect class="cell-a" x="10" y="0" width="1.02" height="1.02"/><rect class="cell-h" x="12" y="0" width="4.02" height="1.02"/><rect class="cell-h" x="17" y="0" width="2.02" height="1.02"/><rect class="cell-h" x="21" y="0" width="1.02" height="1.02"/></svg></div></div></section>
 </main>
 <script>
 (function () {
