@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Automaton</title>
+<meta name="author" content="Ronald Djakou">
+<!--
+  The vision paper: a merge of two documents by Ronald Djakou, made on 10 November 2026 at his request.
+    1. "Vision" (his original text, three pages: the ambition, the three stages, the revenue, why a new OS).
+    2. "Automaton: A new user needs a new OS." (four pages: the same argument with the evidence and the demo).
+  Everything the first one says is here again, in its own order from the ambition on; the evidence, the demo
+  and the 18-month plan come from the second. Facts agree with the pitch deck. What was changed in wording is
+  listed in MERGE-NOTES.md beside this file. Set to look like his Google Docs export (Arial 11 pt, letter).
+-->
+<style>
+  @page { size: 8.5in 11in; margin: 1in; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { margin: 0; font-family: Arial, "Liberation Sans", Arimo, Helvetica, sans-serif; font-size: 11pt; line-height: 14.65pt; color: #000; background: #fff; }
+  h1 { font-size: 23pt; line-height: 1.15; font-weight: 700; margin: 24pt 0 12pt; }
+  .subtitle { font-style: italic; margin: 0 0 16pt; }
+  h2 { font-size: 16pt; line-height: 1.2; font-weight: 700; margin: 18pt 0 12pt; break-after: avoid; }
+  h3 { font-size: 12pt; line-height: 1.25; font-weight: 700; margin: 16pt 0 8pt; break-after: avoid; }
+  p { margin: 0 0 12pt; orphans: 2; widows: 2; }
+  p.label { font-weight: 700; break-after: avoid; }
+  p.lead-in { break-after: avoid; }
+  ul { margin: 0 0 12pt; padding-left: 27pt; }
+  li { padding-left: 9pt; margin: 0; break-inside: avoid; }
+  a { color: #1155cc; text-decoration: underline; }
+  @media screen { body { max-width: 6.5in; margin: 0 auto; padding: 0.6in max(16px, env(safe-area-inset-right, 0px)) 1in max(16px, env(safe-area-inset-left, 0px)); } }
+</style>
+</head>
+<body>
+
+<h1>Automaton</h1>
+<p class="subtitle">A new user needs a new OS.</p>
+
+<h2>The problem</h2>
+
+<p>We’ve gotten to the point—in the AI era—where the models are not the problem. In April 2024, the best model completed 12% of everyday tasks on a real desktop (the OSWorld benchmark). The best now completes 86%, more than the 72% a person completes, and the frontier keeps redefining what we expect of a model every few months. Open-source models are only about four months behind it, and they are more than good enough for most of the tasks carried out day to day. Yet all this progress has hardly changed how the world itself works: only about 10% of American firms use AI to produce what they sell. Companies and VCs have concluded that we have an application problem, and they are rushing to find and build applications. However, every application runs on an operating system, and that is where the obstacle is: in the foundation of the modern technology stack.</p>
+
+<p>The conceptual and practical design of the operating system was made in an age when humans, and humans alone, were the intelligence using it: a person at a screen, with a keyboard and a mouse. Today, we have built an intelligence that understands these systems better than we do but is bottlenecked by them far more than we are. The system has no place for an agent, so the agent borrows a person’s screen, account, and files.</p>
+
+<p>I collected 1,214 public reports of agents failing on today’s systems and sorted 1,168 of them by cause. Almost none blame the model. They blame the system around it: isolation bolted on from outside, agents holding their user’s full authority, processes nobody owns or can stop, agents colliding on one desktop, and work destroyed with no undo. In my own test, a real agent read a planted secrets file and repeated it 17.4 seconds after it started. Nothing stopped it. The full study is published at <a href="https://kdronald3.github.io/aios-agent-os-pain/">kdronald3.github.io/aios-agent-os-pain</a>.</p>
+
+<p>The companies that build agents have realized this, and they have decided to build on the cloud, where they can redesign the foundations to suit their needs. However, there is only so much that can be done on the cloud, because the main user base lives in the real world and not in the digital world that is the cloud. Organizations, laboratories, people, and governments all have data they would rather not share or offload, and even if they did share it, only so much could be captured and used if all our applications lived on the cloud. To bring this technology to everyone, we have to face the foundational issue head on. We need to rework the operating system with the recognition that there is a new user around that is nothing like the original one.</p>
+
+<h2>What exists today</h2>
+
+<p>Automaton is an open-source operating system, based on Linux, that treats an agent as a second kind of user with a place of its own, instead of a program that runs under your name. What I have now is a working demo of capabilities that do not exist on today’s operating systems. I built it in three days and 200 commits, on an 8 GB machine with no graphics card, before any funding, working with AI agents.</p>
+
+<p class="lead-in">On today’s systems, only one agent can use the computer at a time, and you cannot use the computer while it does. On Automaton, several agents use the computer at once, without any conflict, while I use it myself:</p>
+
+<ul>
+  <li>Six agents in six ordinary apps finished six long tasks in one run of 22 minutes, each on its own desktop.</li>
+  <li>I kept typing beside them: a key press reached the screen in 31 to 43 ms, against 24 to 26 ms with no agents.</li>
+  <li>One more agent costs 221 MB of memory.</li>
+</ul>
+
+<p>A three-minute recording of that run: <a href="https://youtu.be/Ugkh9cJ_mVg">youtu.be/Ugkh9cJ_mVg</a></p>
+
+<h2>How it works</h2>
+
+<p>Today an agent is an app that runs as you. On Automaton it is a user of the system, with a seat of its own.</p>
+
+<p class="label">Working today:</p>
+
+<ul>
+  <li><b>Screen.</b> Each agent has its own desktop. You keep yours.</li>
+  <li><b>Files.</b> An agent writes to its own layer, and you keep or discard what it did.</li>
+  <li><b>Watching.</b> Every agent’s desktop is on one live view.</li>
+</ul>
+
+<p class="label">Being built in stage one:</p>
+
+<ul>
+  <li><b>Identity.</b> An agent has its own account, with only the access you grant.</li>
+  <li><b>Secrets.</b> They are used through the system and never read by the agent.</li>
+  <li><b>When you leave.</b> The agent keeps working, and you reach it from your phone.</li>
+  <li><b>Models.</b> Local or cloud, run by the system.</li>
+</ul>
+
+<h2>The ambition</h2>
+
+<p>It makes little sense today to build a piece of software and hope that it becomes a successful company. AI has made execution cheap, and asking a model to clone a product and add a few bespoke features is already becoming standard among enthusiasts. An operating system is a riskier thing to “vibe code” and use, but it is prone to the same problem. What cannot be copied in a weekend is compatibility with the applications people already use, a security record, and the trust of the people who rely on the system. So, to build a successful company out of this, I need to be very ambitious, ambitious to the point that it looks unrealistic, and I have to go all in and work relentlessly to see it realized. That is why the plan is this large. I lay it out here for anyone who is interested.</p>
+
+<h3>Stage one: the redesign of the OS, funded by the pre-seed round</h3>
+
+<p class="lead-in">Stage one will rebuild the operating system of laptops and desktops, on the machines people already own, to meet the needs the new user brings:</p>
+
+<ul>
+  <li><b>Agents as users.</b> Agents will be users of the operating system instead of applications running on it.</li>
+  <li><b>Computers that stay on.</b> Computers will stay on for their agents, so the work continues when nobody is at the desk.</li>
+  <li><b>Local AI that works very well.</b> The system itself will run the models.</li>
+  <li><b>Devices that work as one.</b> A person’s devices will work together as smoothly as possible. It is becoming normal to own several computers and to give some of them to agents, and devices that work as one also make it easier to host and use local AI within the limits of the hardware.</li>
+</ul>
+
+<p>Of course, one question stands. If this is a new OS, how do people keep their existing workflows on it? Automaton runs Windows applications on its Linux base, an approach Valve has already proven. This is where cheap execution helps: with a lean team, AI agents will be employed very heavily to reimplement the interfaces that the applications of the established operating systems rely on, so that those applications run on the new one while the transition is still happening. So far, I have tested 697 Windows applications drawn at random: 46% already run, and 66% run at least in part. Every failure is traced to its cause. This part is crucial and cannot be compromised on, which is why it will be built in stage one.</p>
+
+<p class="lead-in"><b>The next 18 months.</b> There are no users yet, and I am the only founder; I am looking for one or two co-founders, then engineers, for a team of five. The goal is to take Automaton from a working demo to a system its first pilot customers use every day. Here is what will be true by each date:</p>
+
+<ul>
+  <li><b>Month 3:</b> the first co-founder or engineer has joined, and the demo is hardened.</li>
+  <li><b>Month 6:</b> version one of the seat layer runs on Linux, and a security review has started.</li>
+  <li><b>Month 9:</b> the team is five, and local models drive agents, with measurements to show it.</li>
+  <li><b>Month 12:</b> Automaton installs as its own system, and the first pilot pays.</li>
+  <li><b>Month 18:</b> the pilots’ Windows applications run.</li>
+</ul>
+
+<p>I am ready to change this plan to suit the needs that I find as I work on it.</p>
+
+<h3>Stage two: bringing the new OS to mobile devices</h3>
+
+<p>Once the system for the PC has reached a comfortable stage, I will take it to mobile devices: phones, watches, and VR and AR headsets. These are the devices people actually use in their daily lives, and bringing the OS that close to them is what lets the application layer benefit from it. Making this layer work with every other part as smoothly as possible is essential, so it will be the top priority of the stage. The lessons about agents and hardware from laptops and desktops will make this somewhat easier, but the change of hardware will still be a challenge.</p>
+
+<h3>A new application layer: the stores</h3>
+
+<p>With these two stages in place, a new application layer will be built on top of them, one that does for AI applications what the early years of personal devices did for apps: it will create new stores. Perhaps in the future people will not be buying apps but tools that give their agents access to different data, in which case we will need an entirely new way to manage and distribute the very large number of tools that could exist. There are more things of value to agents than I can think of, so the OS has to be prepared to be the distribution center for all of them. Another possibility is a model store, where people train their models, we test them against safety requirements, and users buy or rent them for bespoke use cases on their own devices, without needing deep technical knowledge of inference or of setting up a device to run a model. With this layer, the OS gains a position that cannot be lost easily.</p>
+
+<h3>Stage three: building the hardware of the new era</h3>
+
+<p>With what we will have learned from all of this, we will then approach hardware with a perspective that only we will have, because of the data we will hold about how agents work, how people use their computers, and what is really needed in the new age. This advantage will let us design the hardware best suited to the emerging needs of the new user base, and it will put us in a unique position to serve our customers. The hardware phase will cover all the major devices in use: phones, laptops, desktops, and others that may emerge. With the software and the hardware both in our hands, we will have all we need to keep providing the best experience and to keep meeting the ever-evolving needs of our users, as far as I can see.</p>
+
+<p>Depending on what the data says, designing and training models of our own may be another path that is safe to take, because of the unique perspective and information the new OS will give us.</p>
+
+<h2>Where the revenue comes from</h2>
+
+<p>The OS will be open source. It has to be, to gain any trust, and it is how the OS gets onto people’s laptops. In the early days the revenue will come from companies: an enterprise edition, at $30 per person per month with agents included, that lets them use local and cloud models at full capacity without compromising their data.</p>
+
+<p>For a 500-person firm running three agents each, cloud PCs for agents cost $438,000 a month if they stay on, or $105,600 for working hours only (at Microsoft’s price of $0.40 an hour for Windows 365 for Agents). Automaton, on PCs the firm already owns, costs $15,000.</p>
+
+<p>As we build the application layer for the consumer, three more sources of revenue will follow: fees on the transactions that happen in the stores, a charge for reviewing anything that is to be put on them, and licenses for the software to hardware manufacturers. There is more that can be done for companies than I am aware of yet. The decreasing cost of execution makes this goal realistic, provided that I recruit the right people and keep the team as lean as it needs to be.</p>
+
+<h2>Why a new OS, and why now</h2>
+
+<p class="lead-in">Why is a new OS in the best position to do this, and why can it succeed today? Unlike previous attempts at building new operating systems, the new user—AI—makes it possible to give people an experience that they cannot get from the alternatives, and the compatibility of the application layer has already been proven by Valve. Meanwhile, the established companies have three major problems.</p>
+
+<ul>
+  <li><b>Their revenue depends on today’s design.</b> Apple’s services earned $123 billion last year, a quarter of the company, much of it from apps sold to people, and Google earns from its store in the same way. A system where agents do the work cuts into that. Neither can afford to lose that revenue while it waits a few years for a new stream: that would mean restructuring the company, and perhaps changing its identity.</li>
+  <li><b>They cannot break what a billion people use.</b> Windows runs on 1.6 billion devices, and every change has to leave all of them working. For a public company, changing a product from the ground up is also a poor strategy in the short run: the reception can be bad, and the revenue can be lost very quickly. So anything new arrives slowly and optional: Microsoft announced Recall, withdrew it within four weeks of the reaction, and shipped it eleven months later, switched off by default.</li>
+  <li><b>Their users do not trust them with it.</b> When Microsoft said Windows was becoming an “agentic OS,” it drew 430 replies, nearly all hostile, and it later dropped the phrase. This is why Automaton has to be open source: anyone can read what it does.</li>
+</ul>
+
+<p>Microsoft’s own attempt, Agent Workspace, has been a preview since 2025: switched off by default, on Windows only, with no view of several agents at once and no undo of what an agent changed.</p>
+
+<p>A new company, however, is like a seedling. It is in a unique spot because it is still growing. It will grow through the cracks to chase the sunlight until it is tall enough to compete with the established trees around it, and by then it will be too late for the incumbents, because of the trust and reputation the new company will have earned along the way.</p>
+
+</body>
+</html>
