@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Automaton: the full deck</title>
+<meta name="description" content="Automaton is an open-source operating system rebuilt for AI agents. The full deck, 27 slides.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#10142a">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Automaton: the full deck">
+<meta property="og:description" content="Automaton is an open-source operating system rebuilt for AI agents. The full deck, 27 slides.">
+<meta property="og:url" content="https://kdronald3.github.io/automaton/full/">
+<meta property="og:image" content="https://kdronald3.github.io/automaton/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;600;800&display=swap">
+<link rel="preload" as="image" href="../slides/full/01.webp">
+<style>
+:root{
+  --room:#10142a; --navy:#1a2039; --pink:#f9a3c0; --amber:#f5b84d; --ink:#fbe3ec; --muted:#a9a6c6;
+  --line:rgba(249,163,192,.26);
+  --font:"Schibsted Grotesk",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --gl:max(16px,env(safe-area-inset-left,0px)); --gr:max(16px,env(safe-area-inset-right,0px));
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{background:var(--room)}
+body{margin:0;background:var(--room);color:var(--ink);font:400 15px/1.4 var(--font);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+[hidden]{display:none!important}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+
+/* the top line: whose deck, which deck, the other formats */
+.top{display:flex;align-items:center;flex-wrap:wrap;gap:8px 22px;padding:10px var(--gr) 10px var(--gl)}
+.wm{display:inline-flex;align-items:center;gap:10px;font-weight:800;font-size:19px;letter-spacing:-.015em;text-decoration:none;color:var(--pink)}
+.mark{display:block;width:36px;height:18px}
+.decks{display:inline-flex;border:1px solid var(--line)}
+.decks a,.decks span{padding:6px 12px;font-weight:600;font-size:14px;line-height:20px;text-decoration:none;color:var(--muted)}
+.decks span{background:var(--pink);color:var(--navy)}
+.decks a:hover{color:var(--ink)}
+.files{display:flex;flex-wrap:wrap;gap:2px 20px;margin-left:auto;font-size:14px;font-weight:600}
+.files a{padding:6px 0;text-decoration-thickness:.08em;text-underline-offset:.24em}
+.files a:hover{color:var(--pink)}
+
+/* without script: the slides one under the other */
+.stage{padding:6px var(--gr) 22px var(--gl)}
+.slides{list-style:none;margin:0 auto;padding:0;display:grid;gap:16px;max-width:1280px}
+.slide{position:relative;background:var(--navy);box-shadow:0 0 0 1px var(--line)}
+.slide img{display:block;width:100%;height:auto}
+.hit{position:absolute;display:block}
+.hit:hover,.hit:focus-visible{background:rgba(245,184,77,.2);outline:2px solid var(--amber);outline-offset:0}
+.turn{display:none;margin:0;text-align:center;color:var(--muted);font-size:14px;max-width:30em}
+.turn a{color:var(--ink)}
+
+/* the bottom line: where you are */
+.bar{display:flex;align-items:center;flex-wrap:wrap;gap:10px 12px;
+  padding:10px var(--gr) max(10px,env(safe-area-inset-bottom,0px)) var(--gl)}
+.mid{flex:1 1 0;min-width:0;display:flex;align-items:center;justify-content:center;gap:16px}
+.cells{display:flex;align-items:center;gap:clamp(2px,.36vw,5px);min-width:0}
+.cells a{flex:none;display:block;width:clamp(7px,1.12vw,14px);aspect-ratio:1;background:var(--pink);opacity:.24;transition:transform .12s}
+.cells a.seen{opacity:1}
+.cells a.on{opacity:1;background:var(--amber)}
+.cells a:hover{opacity:1;transform:scale(1.3)}
+.where{margin:0;white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--muted);font-size:14px}
+.where b{color:var(--ink);font-weight:600}
+.where .t{margin-left:.9em;color:var(--ink)}
+.btn{appearance:none;flex:none;display:grid;place-items:center;width:44px;height:44px;padding:0;border:1px solid var(--line);
+  background:none;color:var(--ink);font:inherit;cursor:pointer}
+.btn svg{display:block;width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:square}
+.btn:hover{background:var(--pink);border-color:var(--pink);color:var(--navy)}
+.btn:active{transform:translateY(1px)}
+.btn:disabled{opacity:.28;cursor:default;background:none;border-color:var(--line);color:var(--ink);transform:none}
+html:not(.js) .btn{display:none}
+
+/* with script: one slide, as large as the window allows */
+.js,.js body{height:100%;overflow:hidden}
+.js body{display:grid;grid-template-rows:auto minmax(0,1fr) auto;height:100dvh}
+.js .stage{container-type:size;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+  padding:4px var(--gr) 4px var(--gl);touch-action:pan-y pinch-zoom}
+.js .slides{display:block;position:relative;flex:none;max-width:none;margin:0;width:min(100cqw,calc(100cqh*16/9));aspect-ratio:16/9;cursor:pointer}
+.js .slide{position:absolute;inset:0;display:none}
+.js .slide.is-current,.js .slide.is-leaving{display:block}
+.js .slide.is-current{z-index:1;animation:fwd .26s cubic-bezier(.2,.7,.2,1) both}
+.js .slides[data-dir="back"] .slide.is-current{animation-name:back}
+.js .slides[data-dir="none"] .slide.is-current{animation:none}
+.js .slide img{width:100%;height:100%;object-fit:contain;-webkit-user-drag:none;user-select:none}
+@keyframes fwd{from{opacity:0;transform:translateX(1.4%)}to{opacity:1;transform:none}}
+@keyframes back{from{opacity:0;transform:translateX(-1.4%)}to{opacity:1;transform:none}}
+:fullscreen .top{display:none}
+:fullscreen .stage{padding-top:10px}
+
+@media (max-width:760px){
+  .files{margin-left:0;width:100%;gap:2px 18px}
+  .where .t{display:none}
+  .mid{order:-1;flex-basis:100%;justify-content:space-between}
+  .bar{justify-content:space-between}
+}
+@media (max-width:760px) and (orientation:portrait){
+  .js .turn{display:block}
+  .js .slides{width:100cqw}
+}
+@media (prefers-reduced-motion:reduce){
+  .js .slide.is-current{animation:none}
+  .cells a{transition:none}
+}
+</style>
+<script>document.documentElement.className='js'</script>
+</head>
+<body>
+
+<header class="top">
+  <a class="wm" href="../"><svg class="mark" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 8"><rect fill="#f9a3c0" x="7" y="0" width="1.02" height="1.02"/><rect fill="#f5b84d" x="8" y="0" width="1.02" height="1.02"/><rect fill="#f9a3c0" x="6" y="1" width="2.02" height="1.02"/><rect fill="#f5b84d" x="8" y="1" width="2.02" height="1.02"/><rect fill="#f9a3c0" x="5" y="2" width="1.02" height="1.02"/><rect fill="#f9a3c0" x="7" y="2" width="1.02" height="1.02"/><rect fill="#f5b84d" x="10" y="2" width="1.02" height="1.02"/><rect fill="#f9a3c0" x="4" y="3" width="4.02" height="1.02"/><rect fill="#f5b84d" x="8" y="3" width="4.02" height="1.02"/><rect fill="#f9a3c0" x="3" y="4" width="1.02" height="1.02"/><rect fill="#f9a3c0" x="7" y="4" width="1.02" height="1.02"/><rect fill="#f5b84d" x="8" y="4" width="1.02" height="1.02"/><rect fill="#f5b84d" x="12" y="4" width="1.02" height="1.02"/><rect fill="#f9a3c0" x="2" y="5" width="2.02" height="1.02"/><rect fill="#f9a3c0" x="6" y="5" width="2.02" height="1.02"/><rect fill="#f5b84d" x="8" y="5" width="2.02" height="1.02"/><rect fill="#f5b84d" x="11" y="5" width="3.02" height="1.02"/><rect fill="#f9a3c0" x="1" y="6" width="1.02" height="1.02"/><rect fill="#f9a3c0" x="3" y="6" width="1.02" height="1.02"/><rect fill="#f9a3c0" x="5" y="6" width="1.02" height="1.02"/><rect fill="#f9a3c0" x="7" y="6" width="1.02" height="1.02"/><rect fill="#f5b84d" x="11" y="6" width="1.02" height="1.02"/><rect fill="#f5b84d" x="14" y="6" width="1.02" height="1.02"/><rect fill="#f9a3c0" x="0" y="7" width="8.02" height="1.02"/><rect fill="#f5b84d" x="10" y="7" width="6.02" height="1.02"/></svg>
+Automaton</a>
+  <nav class="decks" aria-label="Which deck"><a href="../">10 slides</a><span aria-current="page">27 slides</span></nav>
+  <nav class="files" aria-label="Other formats and links">
+    <a href="../automaton-deck.pdf">Download the PDF</a>
+    <a href="../automaton-deck.html">Read as a page</a>
+    <a href="../Automaton.pdf">Vision paper</a>
+    <a href="https://youtu.be/Ugkh9cJ_mVg" target="_blank" rel="noopener">Demo video</a>
+  </nav>
+</header>
+
+<main class="stage" id="stage">
+  <ol class="slides" id="slides" data-dir="none">
+    <li class="slide" id="1" data-title="Cover"><img src="../slides/full/01.webp" width="2560" height="1440" alt="Slide 1, Cover. Automaton A new user needs a new OS. By 2028 there will be about 1.3 billion AI agents at work. Every computer they will use was designed for one person. Automaton is an open-source operating system rebuilt for them: based on Linux, able to run Windows applications, on the machines people already own. Pre-seed round. I am looking for co-founders. 1 1.3 billion agents: IDC forecast, quoted by Microsoft, 2025."></li>
+    <li class="slide" id="2" data-title="The vision"><img src="../slides/full/02.webp" width="2560" height="1440" alt="Slide 2, The vision. The models are not the problem. Two years ago the best model completed 12 % of everyday tasks on a real desktop. The best now completes 86 %, more than a person does. Yet the way the world works has hardly changed. 4 months is all that separates open models from the best. Good enough for most everyday work. 10 % of American firms use AI to produce what they sell. Everyday tasks completed on a real desktop 86 % A person: 72 % 61 % 66 % 38 % 12 % Apr 2024 15 % Oct 2024 Jan 2025 Sep 2025 Nov 2025 Aug 2026 Best published score of a general model on the OSWorld benchmark at each date. The benchmark was revised in July 2025, so the earlier and later figures are not strictly comparable. Companies and investors think applications are what is missing. But every application runs on an operating system, and that is where the obstacle is. 2 Sources: OSWorld benchmark leaderboard; Epoch AI, May 2026;" loading="lazy"></li>
+    <li class="slide" id="3" data-title="Built for people alone"><img src="../slides/full/03.webp" width="2560" height="1440" alt="Slide 3, Built for people alone. Built when people were the only users. Operating systems were designed for one kind of user: a person at a screen, with a keyboard and a mouse. AI agents can now operate software as well as people can, but the system has no place for them, so they borrow a person&#x27;s screen, account and files. I collected 1,214 public reports of agents failing on today&#x27;s systems and sorted 1,168 of them by cause. Almost none blame the model. They blame the system around it. In my own test, a real agent read a planted secrets file and repeated it 17.4 seconds after it started. Nothing stopped it. 3 What goes wrong, by number of reports Isolation bolted on from outside 150 The agent has its user&#x27;s authority 146 Processes nobody owns or can stop 110 One desktop, and the agent is in it 105 Planted instructions, leaked data 94 A 1970s terminal as the interface 92 Agents side by side collide 90 Work destroyed, w" loading="lazy"></li>
+    <li class="slide" id="4" data-title="Real failures"><img src="../slides/full/04.webp" width="2560" height="1440" alt="Slide 4, Real failures. Real failures, one cause. Jun 2025 One email, never opened, made Microsoft 365 Copilot send company data out of the company. Jun 2025 A coding agent that failed to delete one file went on to wipe the whole machine, itself included. Jul 2025 An agent deleted a company&#x27;s production database during a code freeze, then said it could not be restored. Jul 2025 An instruction to wipe disks and cloud accounts shipped inside an official release of Amazon&#x27;s coding assistant. A user &quot;Claude decided to test a sandbox it was building by running rm -rf on my home directory. The sandbox didn&#x27;t work. It&#x27;s all gone.&quot; Sep 2026 My own test: a real agent opened a planted secrets file and printed the secret 17.4 seconds after it started. 105 secret files were within its reach. 4 One pattern The agent had authority it did not need, and nothing stood between the decision and the damage. 34 documented failures " loading="lazy"></li>
+    <li class="slide" id="5" data-title="The cloud is a workaround"><img src="../slides/full/05.webp" width="2560" height="1440" alt="Slide 5, The cloud is a workaround. Run AI where the work already is. The companies that build agents have 53 % 81 % noticed the problem. Their answer is to run agents on computers in the cloud, where they control everything. That only goes so far: people&#x27;s work is on their own machines, and many organisations, laboratories and governments will not send their data to someone else&#x27;s. 5 of enterprise IT leaders call data privacy the biggest obstacle to AI agents of organisations see more demand to keep data local because of AI 88 % expect to run AI on their own premises by 2028. 64 % have begun $292 a month 221 MB for one agent on a cloud PC that stays on, at Microsoft&#x27;s price of $0.40 an hour. The work and its data leave the building. of memory for one more agent on a PC you already own, measured on my demo. The files stay where they are, and you choose which model sees what. Sources: Cloudera, 2025; Cisco, 2026; Deloitte, " loading="lazy"></li>
+    <li class="slide" id="6" data-title="The idea"><img src="../slides/full/06.webp" width="2560" height="1440" alt="Slide 6, The idea. Make the agent a user of the system. Today an agent is a program that runs under your name, with your screen and your access. Automaton treats it as a second kind of user, with a place of its own. Today: an app that runs as you Automaton: a user of the system Screen Yours. One agent at a time Its own desktop. You keep yours Works today Files Written straight into your files Its own layer. You keep or discard Works today Watching One window, one agent Every agent on one view, live Works today Identity Your account, and all it can reach Its own account, with what you grant Stage one Secrets Any file you can read, it can read Used through the system, never read Stage one When you leave Stops when the laptop sleeps Works on; you reach it from your phone Stage one Models In someone else&#x27;s cloud Local or cloud, run by the system Stage one Tools Whatever happens to be installed From a store, re" loading="lazy"></li>
+    <li class="slide" id="7" data-title="The demo"><img src="../slides/full/07.webp" width="2560" height="1440" alt="Slide 7, The demo. It already works on one ordinary PC. On today&#x27;s systems only one agent can use the computer at a time, and you cannot use it while it does. Here, six agents in six ordinary apps finished six long tasks in one run of 22 minutes, each on its own desktop. Their owner kept typing beside them: a key press reached the screen in 31 to 43 ms, against 24 to 26 ms with no agents. One more agent costs 221 MB of memory. Built in three days, on an 8 GB machine with no graphics card. Watch it, three minutes: youtu.be/Ugkh9cJ_mVg 7 Task View, 9 November 2026: every agent&#x27;s desktop on one screen." loading="lazy"><a class="hit" href="https://youtu.be/Ugkh9cJ_mVg" target="_blank" rel="noopener" aria-label="The demo video on YouTube" style="left:4.66%;top:79.50%;width:16.60%;height:4.42%"></a></li>
+    <li class="slide" id="8" data-title="The ambition"><img src="../slides/full/08.webp" width="2560" height="1440" alt="Slide 8, The ambition. Ambitious enough to look unrealistic. AI now writes most software, so a small product can be copied in a weekend. An operating system cannot. It takes compatibility with the applications people already use, a security record, and the trust of the people who rely on it. On top of it come the stores that every tool and model for agents plugs into. That is why the plan is this large. Stage one What this round pays for. Built on Linux, for laptops and desktops. Windows applications run on it. Pays: enterprises. 8 Stage two Phones, watches and headsets. The stores Tools for agents; models tested for safety. Pays: a fee on each sale. Hardware Designed from what we learn. Pays: licences to makers. Our models If the data says so." loading="lazy"></li>
+    <li class="slide" id="9" data-title="Stage one"><img src="../slides/full/09.webp" width="2560" height="1440" alt="Slide 9, Stage one. Stage one: an OS for the PC. Agents are users, not applications A desktop and a file layer for each agent work in the demo. Its own account, permissions and secrets come next. Computers that stay on for their agents A suggested order Months 1 to 6 Agents work when nobody is at the desk. Sessions survive sleep and restarts, and you reach them from your phone. The seat layer on Linux, solid enough for daily use Local AI that works very well Months 7 to 12 The system runs models itself and shares one model among all agents. Open models trail the best by four months. A system you install, with local models Several devices working as one Months 13 to 18 Many people now own more than one computer and hand some to their agents. Working as one, they can also run larger local models. Widely used Windows applications; several devices Existing applications keep running A new system is useless witho" loading="lazy"></li>
+    <li class="slide" id="10" data-title="Existing applications"><img src="../slides/full/10.webp" width="2560" height="1440" alt="Slide 10, Existing applications. Existing apps must keep working. A new operating system is useless if the programs people already depend on do not run on it. So Automaton must run today&#x27;s applications from the first day, while new ones are written for it. This is part of stage one and cannot be skipped. Counting each application once 46 % work. 66 % work at least in part. Weighted by how many people install each Valve has proven the way: 30,065 Windows games now run on its Linux handheld, by reimplementing the Windows interfaces. A small team can do this because AI agents do most of the work of matching how Windows behaves. Measured so far on 697 Windows applications drawn at random. Provisional: two very widely installed titles failed in this run and were fixed afterwards. 10 24 % work. 40 % work at least in part. Works Works in part Does not work yet Source: SteamDB count of Steam Deck Verified and Playable games, Se" loading="lazy"></li>
+    <li class="slide" id="11" data-title="Stage two"><img src="../slides/full/11.webp" width="2560" height="1440" alt="Slide 11, Stage two. Stage two: the devices people carry. When the system for the PC is solid, the same system moves to phones, watches and headsets. These are the devices people have with them all day, so an agent there can help with far more of life than one that sits at a desk. Desktop Laptop Stage one covers the two on the left. Stage two adds the three in pink. 11 The first priority of this stage: every device works smoothly with every other. What we learn about agents on laptops and desktops carries over. Phones and headsets are very different machines, and that will be hard. Phone Watch Headset" loading="lazy"></li>
+    <li class="slide" id="12" data-title="The application layer"><img src="../slides/full/12.webp" width="2560" height="1440" alt="Slide 12, The application layer. People will buy tools, not apps. Once agents do the work, people need fewer apps for themselves and more tools for their agents: a connection to a source of data, a service, a device, a skill. Someone has to check those tools, sell them and deliver them. On Automaton that is the system&#x27;s own store. 59,603 2.96 million $1.3 trillion The tool store The model store What a store is worth tools for agents already sit in one public registry, and 16,282 arrived last month. Nobody reviews them, and nobody is paid for them. models are published in one place. People train them; we test each for safety; users buy or rent one and run it with nothing to set up. was sold through Apple&#x27;s App Store ecosystem in 2024. Its standard fee is 30 %. A store of tools and models for agents does not exist yet. Whoever runs that store holds a position that is very hard to take away. 12 Sources: Model Context Proto" loading="lazy"></li>
+    <li class="slide" id="13" data-title="Hardware and models"><img src="../slides/full/13.webp" width="2560" height="1440" alt="Slide 13, Hardware and models. Then hardware, and perhaps models. By then we will know what nobody else does: how agents really use a computer, and how people work beside them. That lets us design computers for both kinds of user, which no hardware maker can do today. Every major device Phones, laptops, desktops, and whatever else emerges Software and hardware from one company The only way to keep the experience good as needs change Perhaps our own models This is the last step of the plan, and it depends on everything before it. 13 If what we learn shows it is worth it, we train models made for this system" loading="lazy"></li>
+    <li class="slide" id="14" data-title="Revenue"><img src="../slides/full/14.webp" width="2560" height="1440" alt="Slide 14, Revenue. Where the revenue comes from. $ The OS will be open source. It has to be, to gain any trust, and it is how the OS gets onto people&#x27;s laptops. In the early days the revenue comes from companies: an enterprise edition that lets them use local and cloud models at full capacity without compromising their data. for each person, each month A 500-person firm, three agents each: the monthly bill Cloud PCs that stay on $438,000 Cloud PCs, working hours only $105,600 Automaton, on PCs the firm owns $15,000 Cloud PC for an agent at Microsoft&#x27;s $0.40 an hour; working hours are 8 a day, 22 days. Model use costs the same on both sides. The firm&#x27;s PCs stay on while agents work; their power and upkeep are not counted. 14 Now: the enterprise edition, agents included Later: a fee on every sale in the stores Later: a fee for reviewing what enters the stores Later: licences to hardware makers Source: Micros" loading="lazy"></li>
+    <li class="slide" id="15" data-title="Why a new OS"><img src="../slides/full/15.webp" width="2560" height="1440" alt="Slide 15, Why a new OS. Why the incumbents will not. $123 billion 1.6 billion 430 replies Their revenue depends on today&#x27;s design They cannot break what a billion people use Their users do not trust them with it Apple&#x27;s services earned that last year, a quarter of the company, much of it from apps sold to people. A system where agents do the work cuts into it. Apple and Google cannot give that up while a new income grows. That many devices run Windows, and every change has to leave them all working. So anything new arrives slowly and optional: Microsoft announced Recall, withdrew it within four weeks, and shipped it eleven months later, switched off by default. Nearly all hostile, when Microsoft said Windows was becoming an &quot;agentic OS&quot;. It later dropped the phrase. &quot;I just want my computer to be a computer.&quot; This is why the OS has to be open source: anyone can read what it does. A new company is a seedling amo" loading="lazy"></li>
+    <li class="slide" id="16" data-title="Why now"><img src="../slides/full/16.webp" width="2560" height="1440" alt="Slide 16, Why now. Why this is the moment. Money is moving to this layer Oct 2024 Anthropic releases computer use: a model that works a desktop by looking at it and clicking. 2025 OpenAI and Google release their own computer-using agents. Microsoft announces Agent Workspace for Windows 11. Jun 2026 Microsoft starts selling cloud PCs for agents by the hour. $56 M Aug 2026 A model completes more desktop tasks than a person for the first time on the standard test. seed round for /dev/agents, an operating system for agents, 2024 Nov 2026 Agent Workspace is still a preview, switched off by default. On every shipping system an agent still borrows its person&#x27;s screen or works in the cloud. Oct 2026 Memory prices jump and PC shipments fall 22 %. A virtual machine for each agent costs gigabytes; a seat costs 221 MB. Nov 2026 Automaton&#x27;s demo: six agents at work on one ordinary PC while its owner keeps working. 16 $" loading="lazy"></li>
+    <li class="slide" id="17" data-title="Microsoft"><img src="../slides/full/17.webp" width="2560" height="1440" alt="Slide 17, Microsoft. How Microsoft&#x27;s version differs. Microsoft Agent Workspace Automaton Where it stands A preview for Insiders, off by default A working demo on Linux, November 2026 The idea Its own session, account and desktop per agent The same idea, through the whole system Who runs it An administrator, for the whole device The person at the PC, for each agent Seeing the agents No documented view of several at once Task View: every agent&#x27;s desktop, live Its file changes Allow, ask or never. No documented undo In its own layer. You keep or discard Applications Agent apps written for it; Copilot first Ordinary desktop apps. Six in the demo Models Chosen by each agent app Any model. Local models not yet shown What it sells Copilot, and cloud PCs for agents The local system. No cloud to protect What Microsoft has and we do not: Windows on more than 1.6 billion devices, a security organisation, and an enterp" loading="lazy"></li>
+    <li class="slide" id="18" data-title="Built so far"><img src="../slides/full/18.webp" width="2560" height="1440" alt="Slide 18, Built so far. Built so far. I built all of this before any funding, working with AI agents. 18 697 13.6 s Windows applications, drawn at random, tested on the Linux base with Wine and my own fixes. 46 % already run, 66 % at least in part. a task with my computer use, against 20.8 s from screenshots. Faster with all three models tested, in 456 runs. 3 days 1,214 from the first line of code to six agents at work on one PC, in 200 commits. reports of agents failing on today&#x27;s systems, audited, and 11 controlled experiments. Published: kdronald3.github.io/aiosagent-os-pain Who is building it I am Ronald Djakou. I study mathematics at Caltech and do research in quantum systems and cellular automata. IBM awarded me Quantum Excellence at its Qiskit school in 2024. I built the simulation tools my research groups lacked, and cut one analysis from 59 GB of memory to 2.5 GB. I am looking for co-founders, then en" loading="lazy"><a class="hit" href="https://kdronald3.github.io/aios-agent-os-pain/" target="_blank" rel="noopener" aria-label="The field study" style="left:74.73%;top:37.50%;width:17.66%;height:4.42%"></a><a class="hit" href="https://kdronald3.github.io/aios-agent-os-pain/" target="_blank" rel="noopener" aria-label="The field study" style="left:74.73%;top:41.39%;width:10.29%;height:4.42%"></a></li>
+    <li class="slide" id="19" data-title="The ask"><img src="../slides/full/19.webp" width="2560" height="1440" alt="Slide 19, The ask. I am raising $2 million. This pre-seed round pays for a team of five: me, one or two cofounders, then engineers. It turns a demo into a system that can be installed and used every day, in 18 months. Terms: a SAFE, with the cap to be agreed. Month 18 Month 12 Month 9 Month 6 Month 3 The first co-founder or engineer has joined. The demo is hardened. 19 The seat layer on Linux, version one. Security review started. The team is five. Local models drive agents on one workstation, measured. Automaton installs as its own system on an ordinary PC. Widely used Windows applications run. Ready to raise a seed round." loading="lazy"></li>
+    <li class="slide" id="20" data-title="Use of funds"><img src="../slides/full/20.webp" width="2560" height="1440" alt="Slide 20, Use of funds. Where the money goes. For Share Amount What it buys 58 % $1,160,000 My pay at $100,000 a year; four more people (co-founders first, then engineers) at about $240,000 with costs, joining over months 3 to 7 Finding them 4 % $80,000 Paid trial projects, travel and relocation for those who join AI compute 15 % $300,000 The agents that build and test the system Security, legal 6 % $120,000 An outside security review; advice on compatibility Hardware 5 % $100,000 Workstations for local models; a range of ordinary PCs Reserve 12 % $240,000 Costs nobody planned for Team An illustration at $2 million over 18 months." loading="lazy"></li>
+    <li class="slide" id="21" data-title="Risks"><img src="../slides/full/21.webp" width="2560" height="1440" alt="Slide 21, Risks. What could go wrong. Microsoft ships it first A new system never gets applications Its version runs on Windows only, is switched off by default, and exists to sell its cloud. Ours is local, works with any model and runs ordinary apps. Its preview proves the need. We begin as a layer on Linux, where applications already run, and add Windows applications by the route Valve proved. Measured, not promised: slide 10. Local models are too weak An agent is tricked by what it reads The demo uses cloud models today. Open models trail the best by about six months. The system works with both, so nothing has to wait for either. Each agent has its own account and file layer and sees only what it is given. Its changes wait for its person&#x27;s approval. An outside security review is in the budget. Legal questions on compatibility A very large scope for a small team We reimplement interfaces, as Wine and P" loading="lazy"></li>
+    <li class="slide" id="22" data-title="Close"><img src="../slides/full/22.webp" width="2560" height="1440" alt="Slide 22, Close. Give every agent a seat. Automaton makes the computer you already own the place where AI works: many agents, your own data, your own machine. I am looking for co-founders and first investors. Ronald Djakou rkouatch@caltech.edu djakouronald@outlook.com Demo: youtu.be/Ugkh9cJ_mVg" loading="lazy"><a class="hit" href="https://youtu.be/Ugkh9cJ_mVg" target="_blank" rel="noopener" aria-label="The demo video on YouTube" style="left:9.53%;top:57.28%;width:16.60%;height:4.42%"></a></li>
+    <li class="slide" id="23" data-title="How it works"><img src="../slides/full/23.webp" width="2560" height="1440" alt="Slide 23, How it works. Own desktop, own files, one view. 23 Automaton works inside the operating system, not as a program on top of it. Four things make an agent a user. Its own desktop Its own files Every agent gets a private desktop with a screen, a pointer and a keyboard of its own. It opens ordinary apps there, and its clicks never land on your screen. The agent sees only the folders you give it. What it writes goes to its own layer first. When it has finished you look at the changes and keep or discard them. One view of everyone Your screen stays yours Swipe up with four fingers, as you would to see your open windows. One card holds every agent&#x27;s desktop, live, with its state: Working, Done or Needs you. You keep working while they do. Open any agent&#x27;s desktop to watch it, take over, or stop it." loading="lazy"></li>
+    <li class="slide" id="24" data-title="What one PC can hold"><img src="../slides/full/24.webp" width="2560" height="1440" alt="Slide 24, What one PC can hold. What one PC can hold. Memory in the PC 8 GB 16 GB 32 GB 64 GB 19 agents and you, in a PC with 16 GB of memory What each agent has open An office app or a browser A screen, idle No screen A new agent&#x27;s screen is ready in 130 milliseconds. Three idle agents use 2.2 % of one processor core. Six agents with six apps open peaked at 3,975 MB. 24 Memory only. 3 GB is set aside for the system and your own apps, and 475 MB for the control app. A working agent also needs processor time and a model; a model that runs on the machine needs memory of its own." loading="lazy"></li>
+    <li class="slide" id="25" data-title="Appendix: measurements"><img src="../slides/full/25.webp" width="2560" height="1440" alt="Slide 25, Appendix: measurements. Every number, with its conditions. What was measured Result Conditions Three idle agents, panels open 2.2 % of one processor core 11.2 % before tuning. 8 November 2026 Memory for one more agent 221 MB with a screen, 179 MB without Idle agent A new agent&#x27;s screen Ready in 130 ms One seat with a real app 464 to 828 MB at its peak Six different apps Six agents with six apps 3,975 MB at the peak 4,741 MB with the control app and the person&#x27;s apps. 8 GB machine Six agents, the whole demo 22 min 30 s, all six tasks passed Sonnet 5.5. $18.09 of model use. Peak 4,955 MB. 9 November 2026 One agent builds a slide deck 7 min 36 s reading the app&#x27;s structure 17 min 21 s from screenshots. $3.15 against $6.01 Computer use, eight unseen tasks 13.6 to 18.4 s a task, three models 19.6 to 24.4 s from screenshots. 119 of 120 against 120 of 120. 9 November 2026 Windows applications, counted once 46.3 % work" loading="lazy"></li>
+    <li class="slide" id="26" data-title="Appendix: the mark"><img src="../slides/full/26.webp" width="2560" height="1440" alt="Slide 26, Appendix: the mark. The mark: two rules, one peak. Each half grows from a single cell by a simple rule, one row at a time. Rule 102 on the left makes an orderly pattern that repeats at every scale. Rule 30 on the right never repeats. They meet at the top: two kinds of user, one machine. In this deck pink is the agents and amber is you. The mark, eight rows. Each slide&#x27;s foot shows one more row. 26 On white, for documents Rule 102 alone: a cell is on when the cell above and its right neighbour differ. Rule 30 alone: on when the left neighbour differs from &quot;centre or right&quot;." loading="lazy"></li>
+    <li class="slide" id="27" data-title="Appendix: sources"><img src="../slides/full/27.webp" width="2560" height="1440" alt="Slide 27, Appendix: sources. Sources. Microsoft, &quot;Experimental agentic features&quot;, support.microsoft.com, read 9 November 2026 Windows application sample, 697 units, 13 October 2026 SteamDB count of Steam Deck Verified and Playable games, September 2026 Microsoft, &quot;Agentic security&quot; in the Windows security book, learn.microsoft.com, read 9 November 2026 OSWorld benchmark leaderboard, and Anthropic&#x27;s announcement of computer use, October 2024 Apple, results for fiscal year 2026, and App Store ecosystem study, June 2025. Microsoft, annual report 2026 Automaton, vision document, draft 5 My handwritten notes, November 2026 Agent Seat project records: performance, Task View and computer-use findings, 7 to 9 November 2026 Field study of agents on today&#x27;s systems, September 2026. Report II (the audit and 11 experiments): kdronald3.github.io/aios-agent-ospain. Report I (the ranking by cause): the same address with /report1.h" loading="lazy"><a class="hit" href="https://kdronald3.github.io/aios-agent-os-pain/" target="_blank" rel="noopener" aria-label="The field study" style="left:13.65%;top:58.28%;width:18.60%;height:3.76%"></a><a class="hit" href="https://kdronald3.github.io/aios-agent-os-pain/" target="_blank" rel="noopener" aria-label="The field study" style="left:6.34%;top:61.17%;width:2.99%;height:3.76%"></a></li>
+  </ol>
+  <p class="turn">On a small screen, turn the phone sideways, or <a href="../automaton-deck.html">read the deck as a page</a>.</p>
+</main>
+
+<footer class="bar">
+  <button class="btn" id="prev" type="button" title="Previous slide (left arrow)" aria-label="Previous slide"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M11.5 3 5.5 9l6 6"/></svg></button>
+  <div class="mid">
+    <nav class="cells" id="cells" aria-label="Slides"><a href="#1" title="1. Cover"><span class="vh">Slide 1: Cover</span></a><a href="#2" title="2. The vision"><span class="vh">Slide 2: The vision</span></a><a href="#3" title="3. Built for people alone"><span class="vh">Slide 3: Built for people alone</span></a><a href="#4" title="4. Real failures"><span class="vh">Slide 4: Real failures</span></a><a href="#5" title="5. The cloud is a workaround"><span class="vh">Slide 5: The cloud is a workaround</span></a><a href="#6" title="6. The idea"><span class="vh">Slide 6: The idea</span></a><a href="#7" title="7. The demo"><span class="vh">Slide 7: The demo</span></a><a href="#8" title="8. The ambition"><span class="vh">Slide 8: The ambition</span></a><a href="#9" title="9. Stage one"><span class="vh">Slide 9: Stage one</span></a><a href="#10" title="10. Existing applications"><span class="vh">Slide 10: Existing applications</span></a><a href="#11" title="11. Stage two"><span class="vh">Slide 11: Stage two</span></a><a href="#12" title="12. The application layer"><span class="vh">Slide 12: The application layer</span></a><a href="#13" title="13. Hardware and models"><span class="vh">Slide 13: Hardware and models</span></a><a href="#14" title="14. Revenue"><span class="vh">Slide 14: Revenue</span></a><a href="#15" title="15. Why a new OS"><span class="vh">Slide 15: Why a new OS</span></a><a href="#16" title="16. Why now"><span class="vh">Slide 16: Why now</span></a><a href="#17" title="17. Microsoft"><span class="vh">Slide 17: Microsoft</span></a><a href="#18" title="18. Built so far"><span class="vh">Slide 18: Built so far</span></a><a href="#19" title="19. The ask"><span class="vh">Slide 19: The ask</span></a><a href="#20" title="20. Use of funds"><span class="vh">Slide 20: Use of funds</span></a><a href="#21" title="21. Risks"><span class="vh">Slide 21: Risks</span></a><a href="#22" title="22. Close"><span class="vh">Slide 22: Close</span></a><a href="#23" title="23. How it works"><span class="vh">Slide 23: How it works</span></a><a href="#24" title="24. What one PC can hold"><span class="vh">Slide 24: What one PC can hold</span></a><a href="#25" title="25. Appendix: measurements"><span class="vh">Slide 25: Appendix: measurements</span></a><a href="#26" title="26. Appendix: the mark"><span class="vh">Slide 26: Appendix: the mark</span></a><a href="#27" title="27. Appendix: sources"><span class="vh">Slide 27: Appendix: sources</span></a></nav>
+    <p class="where" id="where" aria-live="polite"><b id="num">1</b> / 27<span class="t" id="ttl">Cover</span></p>
+  </div>
+  <button class="btn" id="full" type="button" title="Full screen (F)" aria-label="Full screen" aria-pressed="false"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3 7V3h4M11 3h4v4M15 11v4h-4M7 15H3v-4"/></svg></button>
+  <button class="btn" id="next" type="button" title="Next slide (right arrow or space)" aria-label="Next slide"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="m6.5 3 6 6-6 6"/></svg></button>
+</footer>
+
+<script>
+(function () {
+  var doc = document, root = doc.documentElement;
+  var list = doc.getElementById('slides'), slides = [].slice.call(list.children), n = slides.length;
+  var cells = [].slice.call(doc.querySelectorAll('#cells a'));
+  var num = doc.getElementById('num'), ttl = doc.getElementById('ttl');
+  var prev = doc.getElementById('prev'), next = doc.getElementById('next'), full = doc.getElementById('full');
+  var cur = -1, leaving = null, loaded = {};
+
+  function clamp(i) { return Math.max(0, Math.min(n - 1, i)); }
+  function fromHash() { var m = /^#(\d+)$/.exec(location.hash); return m ? clamp(parseInt(m[1], 10) - 1) : 0; }
+  function warm(i) {                       // fetch a neighbour's picture before it is asked for
+    var s = slides[i]; if (!s || loaded[i]) return; loaded[i] = 1;
+    var im = new Image(); im.src = s.querySelector('img').getAttribute('src');
+  }
+  function show(i, write) {
+    i = clamp(i); if (i === cur) return;
+    var old = slides[cur], nu = slides[i];
+    list.setAttribute('data-dir', cur < 0 ? 'none' : i > cur ? 'fwd' : 'back');
+    slides.forEach(function (s) { s.classList.remove('is-leaving'); });
+    if (old) { old.classList.remove('is-current'); old.classList.add('is-leaving'); }
+    nu.querySelector('img').loading = 'eager';
+    nu.classList.add('is-current');
+    clearTimeout(leaving);
+    leaving = setTimeout(function () { slides.forEach(function (s) { s.classList.remove('is-leaving'); }); }, 300);
+    cur = i; loaded[i] = 1;
+    cells.forEach(function (c, k) {
+      c.classList.toggle('on', k === i); c.classList.toggle('seen', k < i);
+      if (k === i) c.setAttribute('aria-current', 'true'); else c.removeAttribute('aria-current');
+    });
+    num.textContent = i + 1; ttl.textContent = nu.getAttribute('data-title');
+    prev.disabled = i === 0; next.disabled = i === n - 1;
+    warm(i + 1); warm(i - 1);
+    if (write !== false) { try { history.replaceState(null, '', '#' + (i + 1)); } catch (e) {} }
+  }
+  function go(d) { show(cur + d); }
+
+  prev.addEventListener('click', function () { go(-1); });
+  next.addEventListener('click', function () { go(1); });
+  cells.forEach(function (c, k) { c.addEventListener('click', function (e) { e.preventDefault(); show(k); }); });
+  window.addEventListener('hashchange', function () { show(fromHash(), false); });
+
+  // a click on the slide: the left third goes back, the rest goes on; a link on the slide is a link
+  var swiped = false;
+  list.addEventListener('click', function (e) {
+    if (swiped) { swiped = false; return; }
+    var a = e.target.closest ? e.target.closest('a') : null;
+    if (a) {
+      var m = /^#(\d+)$/.exec(a.getAttribute('href') || '');
+      if (m) { e.preventDefault(); show(parseInt(m[1], 10) - 1); }
+      return;
+    }
+    var r = list.getBoundingClientRect();
+    go((e.clientX - r.left) < r.width / 3 ? -1 : 1);
+  });
+
+  // a sideways swipe
+  var sx = 0, sy = 0, down = false;
+  list.addEventListener('pointerdown', function (e) { down = true; sx = e.clientX; sy = e.clientY; swiped = false; });
+  list.addEventListener('pointerup', function (e) {
+    if (!down) return; down = false;
+    var dx = e.clientX - sx, dy = e.clientY - sy;
+    if (Math.abs(dx) > 44 && Math.abs(dx) > 1.5 * Math.abs(dy)) { swiped = true; go(dx < 0 ? 1 : -1); setTimeout(function () { swiped = false; }, 350); }
+  });
+  list.addEventListener('pointercancel', function () { down = false; });
+
+  doc.addEventListener('keydown', function (e) {
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    var onControl = e.target.closest && e.target.closest('a,button,input,textarea,select');
+    var k = e.key;
+    if (k === 'ArrowRight' || k === 'PageDown') { e.preventDefault(); go(1); }
+    else if (k === 'ArrowLeft' || k === 'PageUp') { e.preventDefault(); go(-1); }
+    else if (k === 'Home') { e.preventDefault(); show(0); }
+    else if (k === 'End') { e.preventDefault(); show(n - 1); }
+    else if ((k === ' ' || k === 'Spacebar' || k === 'Enter') && !onControl) { e.preventDefault(); go(e.shiftKey ? -1 : 1); }
+    else if ((k === 'f' || k === 'F') && !onControl) { toggleFull(); }
+  });
+
+  function isFull() { return !!(doc.fullscreenElement || doc.webkitFullscreenElement); }
+  function toggleFull() {
+    if (isFull()) { (doc.exitFullscreen || doc.webkitExitFullscreen).call(doc); return; }
+    var req = root.requestFullscreen || root.webkitRequestFullscreen;
+    if (req) { var p = req.call(root); if (p && p.catch) p.catch(function () {}); }
+  }
+  if (!(root.requestFullscreen || root.webkitRequestFullscreen) || doc.fullscreenEnabled === false) full.hidden = true;
+  full.addEventListener('click', toggleFull);
+  function fullChanged() { full.setAttribute('aria-pressed', isFull() ? 'true' : 'false'); }
+  doc.addEventListener('fullscreenchange', fullChanged);
+  doc.addEventListener('webkitfullscreenchange', fullChanged);
+
+  show(fromHash(), false);
+})();
+</script>
+</body>
+</html>
